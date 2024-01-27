@@ -12,30 +12,10 @@ public class Ball : MonoBehaviourPunCallbacks
     private bool scoreIncremented = false;
     public float currentSpeed { get; set; }
     private Vector2 initialPosition;
-    private AudioSource audioSource;
 
     private void Awake()
     {    
-      initialPosition = new Vector2(0,0);
-      audioSource = GetComponent<AudioSource>();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Check if the collision involves the ball and play the sound
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            PlayCollisionSound();
-        }
-    }
-
-    private void PlayCollisionSound()
-    {
-        // Check if an audio clip is assigned and play the sound
-        if (audioSource != null && audioSource.clip != null)
-        {
-            audioSource.PlayOneShot(audioSource.clip);
-        }
+      initialPosition = new Vector2(0,0);       
     }
 
     private void Start()

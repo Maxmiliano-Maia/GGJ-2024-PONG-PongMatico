@@ -150,25 +150,24 @@ public class GameManagerSingle : MonoBehaviour
         {
             //Gerar intervalo de tempo aleatório
             System.Random random = new System.Random();
-            tempoQuest = random.Next(30, 45);
-            yield return new WaitForSeconds(tempoQuest); // Espera por segundos
+            tempoQuest = random.Next(45, 60);
+            yield return new WaitForSeconds(tempoQuest); // Espera por 10 segundos
 
             // Chama a função para exibir a pergunta
-            ExibirPergunta(perguntas[perguntaAtualIndex]);
+            ExibirPergunta(perguntas[perguntaAtualIndex], respostaPadrao[perguntaAtualIndex]);
             // Agora, espere mais 5 segundos antes de chamar a próxima pergunta
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(5f);
      
             // Move para a próxima pergunta no array
             if (respostafoidada == true && perguntaAtualIndex <= perguntas.Length)
             {
                 perguntaAtualIndex++;
-                Invoke("DesativarQuestPanel", 2f);
             }
             respostafoidada = false;
         }
     }
 
-    void ExibirPergunta(string pergunta)
+    void ExibirPergunta(string pergunta, bool respostapadrao)
     {
         questPanel.SetActive(true);
         quest.text = pergunta;
@@ -209,7 +208,9 @@ public class GameManagerSingle : MonoBehaviour
         CancelInvoke();
         KnocBottom = 0;
         KnocTop = 0;
+        Invoke("DesativarQuestPanel", 2f);
         Invoke(nameof(StartRound), 1f);
+
     }
 
     public void StartRound()
@@ -253,6 +254,7 @@ public class GameManagerSingle : MonoBehaviour
         if (respostaPadrao[perguntaAtualIndex] == true){
             SetPlayerScore(playerScore + 2);
             quest.text = "Parabéns!";
+            
             NewRound();
             
         }
@@ -260,6 +262,7 @@ public class GameManagerSingle : MonoBehaviour
         {
             SetPlayerScore(playerScore + -2);
             quest.text = "Que pena você errou";
+            Invoke("DesativarQuestPanel", 2f);
             NewRound();          
         }
     }
@@ -271,6 +274,7 @@ public class GameManagerSingle : MonoBehaviour
         {
             SetPlayerScore(playerScore - 2);
             quest.text = "Que pena você errou";
+
             NewRound();           
         }
 
@@ -278,22 +282,26 @@ public class GameManagerSingle : MonoBehaviour
         {
             SetPlayerScore(playerScore + 2);
             quest.text = "Parabéns!";
+
             NewRound();          
         }
     }
 
     void DesativarQuestPanel()
     {
+        // Desative o painel
         questPanel.SetActive(false);
     }
 
     public void KnocOnTop()
     {
         KnocTop += 1;
+        Debug.Log(KnocTop);
     }
 
     public void KnocOnBottom()
     {
         KnocBottom += 1;
+        Debug.Log(KnocBottom);
     }
 }

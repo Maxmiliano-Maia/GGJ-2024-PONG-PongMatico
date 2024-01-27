@@ -9,45 +9,10 @@ public class BallSingle : MonoBehaviour
     public float maxSpeed = Mathf.Infinity;
     public float acceleration = 0.5f;
     public float currentSpeed { get; private set; }
-    private AudioSource racketCollisionAudioSource;  // AudioSource for racket collisions
-    private AudioSource otherCollisionAudioSource;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        racketCollisionAudioSource = transform.Find("Player Paddle").GetComponent<AudioSource>();
-        otherCollisionAudioSource = transform.Find("Player Paddle").GetComponent<AudioSource>();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Check if the collision involves the racket
-        if (collision.gameObject.CompareTag("Racket"))
-        {
-            PlayRacketCollisionSound();
-        }
-        else
-        {
-            // For collisions with other objects
-            PlayOtherCollisionSound();
-        }
-    }
-
-    private void PlayRacketCollisionSound()
-    {
-        // Check if an audio clip is assigned for racket collisions and play the sound
-        if (racketCollisionAudioSource != null && racketCollisionAudioSource.clip != null)
-        {
-            racketCollisionAudioSource.PlayOneShot(racketCollisionAudioSource.clip);
-        }
-    }
-
-    private void PlayOtherCollisionSound()
-    {
-        // Check if an audio clip is assigned for other collisions and play the sound
-        if (otherCollisionAudioSource != null && otherCollisionAudioSource.clip != null)
-        {
-            otherCollisionAudioSource.PlayOneShot(otherCollisionAudioSource.clip);
-        }
     }
 
     public void ResetPosition()
