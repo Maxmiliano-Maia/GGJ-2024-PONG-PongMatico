@@ -14,6 +14,8 @@ public class GameManagerSingle : MonoBehaviour
     [SerializeField] private Text quest;
     [SerializeField] private GameObject questPanel;
 
+    public GameObject particlePrefab;
+
     private int playerScore;
     private int computerScore;
     
@@ -31,6 +33,7 @@ public class GameManagerSingle : MonoBehaviour
         private void Start()
     {
         NewGame();
+        
         perguntas[0] = "Thor é um deus nórdico e membro dos Vingadores. Se todos os membros dos Vingadores são heróis, então Thor é um herói. Verdadeiro ou falso?";
         respostaPadrao[0] = true;
         
@@ -143,7 +146,13 @@ public class GameManagerSingle : MonoBehaviour
         respostaPadrao[36] = true;
         StartCoroutine(GerarPerguntasAIntervalos());
     }
-    
+
+    void SpawnParticle()
+    {
+        // Utiliza Instantiate para crear una nueva instancia de la partícula en la posición actual del spawner
+        Instantiate(particlePrefab, transform.position, Quaternion.identity);
+    }
+
     IEnumerator GerarPerguntasAIntervalos()
     {
         while (perguntaAtualIndex < perguntas.Length)
@@ -222,12 +231,14 @@ public class GameManagerSingle : MonoBehaviour
     {
         SetPlayerScore(playerScore + 1);
         NewRound();
+        SpawnParticle();
     }
 
     public void OnComputerScored()
     {
         SetComputerScore(computerScore + 1);
         NewRound();
+        SpawnParticle();
     }
 
     private void SetPlayerScore(int score)
