@@ -14,7 +14,8 @@ public class GameManagerSingle : MonoBehaviour
     [SerializeField] private Text quest;
     [SerializeField] private GameObject questPanel;
 
-    public GameObject particlePrefab;
+    public GameObject particlePrefab1;
+    public GameObject particlePrefab2;
 
     private int playerScore;
     private int computerScore;
@@ -147,10 +148,16 @@ public class GameManagerSingle : MonoBehaviour
         StartCoroutine(GerarPerguntasAIntervalos());
     }
 
-    void SpawnParticle()
+    void SpawnParticle1()
     {
         // Utiliza Instantiate para crear una nueva instancia de la partícula en la posición actual del spawner
-        Instantiate(particlePrefab, transform.position, Quaternion.identity);
+        Instantiate(particlePrefab1, transform.position, Quaternion.identity);
+    }
+
+    void SpawnParticle2()
+    {
+        // Utiliza Instantiate para crear una nueva instancia de la partícula en la posición actual del spawner
+        Instantiate(particlePrefab2, transform.position, Quaternion.identity);
     }
 
     IEnumerator GerarPerguntasAIntervalos()
@@ -197,7 +204,7 @@ public class GameManagerSingle : MonoBehaviour
         }
        if (KnocTop >= 6 && KnocBottom >=6 ) 
         {
-            NewRound();
+            NewRound();           
         } 
        
     }
@@ -219,7 +226,6 @@ public class GameManagerSingle : MonoBehaviour
         KnocTop = 0;
         Invoke("DesativarQuestPanel", 2f);
         Invoke(nameof(StartRound), 1f);
-
     }
 
     public void StartRound()
@@ -228,17 +234,17 @@ public class GameManagerSingle : MonoBehaviour
     }
 
     public void OnPlayerScored()
-    {
+    {       
         SetPlayerScore(playerScore + 1);
-        NewRound();
-        SpawnParticle();
+        SpawnParticle1();
+        NewRound();       
     }
 
     public void OnComputerScored()
     {
         SetComputerScore(computerScore + 1);
-        NewRound();
-        SpawnParticle();
+        SpawnParticle1();
+        NewRound();   
     }
 
     private void SetPlayerScore(int score)
